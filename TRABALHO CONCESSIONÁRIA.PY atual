@@ -1,0 +1,188 @@
+#O cliente deve informar seu nome, telefone e saldo disponível no início do
+#sistema.
+#Cadastro de cliente
+
+print("*************** CADASTRO DE CLIENTE ************")
+
+nome = input("Informe seu nome:")
+tel=int(input("Informe seu telefone:"))
+saldo =float(input("informe seu saldo:R$"))
+
+#Dicionário para agrupar nome dos modelos e marcas pra venda e compra de carros.
+#tabela para agrupar os modelos de carros e o valor de cada um deles para a negociação.
+
+tabela_fipe={         
+"Civic":500 , "Fit":400, "HB-20":300,
+"Corolla":600, "Hilux":700, "Yaris":1500,
+"Uno":1000 ,"Argo:":5000, "Stilo":6000 ,
+"Gol":1000, "Golf":4000, "Jetta:":9000 ,
+"S10":500, "Onix":600 ,"Cruze":7000,
+}
+
+# Tabela de carros para Aluguel modelos e marca
+
+tabela_aluguel={
+"Honda":["Civic","Fit","HB-20"],
+"Toyota":["Corolla","Hilux","Yaris"],
+"Fiat":["Uno","Argo","Stilo"],
+"Volkswagen":["Gol","GOlf","Jetta"],
+"Chevrolet":["S10","Onix","Cruze"],
+}
+
+
+# Menu de opções para o cliente e para a concessionária.
+print("    ")
+
+
+# Estrutura de repetição para opções para o cliente de Venda , Compra e Aluguel de veículos
+while True:
+
+    print("***** SISTEMA DE VENDA E COMPRA E ALUGUEL DE CARROS ******")
+    opcao=int(input("Escolha uma das opções abaixo:\n 1- Venda de veículos.\n 2- Compra de Carros. \n 3- Aluguel de Veículos.\n 4- Sair do Sistema.\n"))
+    
+    # Opcão onde a concessionária irá comprar o carro do cliente.
+    if opcao == 1 : 
+        print("    ")
+        print("--- Venda de veículos--- ")
+        for marca in tabela_aluguel :           #Estrutura para exibir dicionário e receber a marca escolhida pelo cliente e verificar se está na tabela de aluguel e iniciar o loop
+            print(marca)
+
+            print("   ")
+
+        marca =input("Escolha uma marca acima:")  
+
+        for modelo in tabela_fipe:              #Estrutura para exibir dicionário e receber o modelo escolhida pelo cliente e verificar se está na tabela fipe e fazer o cálculo
+            print("   ")
+
+            print(tabela_aluguel[marca],"\n")
+
+            modelo =input("EScolha um modelo acima:")
+            desconto = tabela_fipe[modelo] * 0.12
+            valor_fipe =  tabela_fipe[modelo] - desconto
+            print("O valor da proposta  para o seu carro é de:R$",valor_fipe)
+            escolha =input("Deseja fechar o acordo? (S/N): ").lower()
+           
+            if escolha == "s":                   #Condição utilizada caso o cliente escolha fechar a venda do seu veículo. o valor do veículo comprado, será adicionado ao seu saldo.
+              saldo = saldo + valor_fipe
+              print("Compra realizada com sucesso. O valor do seu saldo atual é:R$",saldo,"\n")
+              break
+
+
+            
+        
+            elif escolha == "n":                 #Condição utilizada caso o cliente escolha não fechar a venda do seu veículo.
+              print("Negociação  cancelada.\n")  
+              break
+           
+ 
+            else :                               #Caso o usuário digite outra opção que não seja da escolha acima. Mostrar erro
+             print("Erro")
+             break
+             
+
+         
+               
+    if opcao == 2 : # Opção de venda de carro para o cliente
+        
+        print("--- Compra de veículos--- ")
+        for marca in tabela_aluguel:             #Estrutura para exibir dicionário e receber a marca escolhida pelo cliente e verificar se está na tabela de aluguel.
+            print(marca)
+        
+        marca =input("Escolha a marca:\n")
+
+        print(" ")
+
+        print(tabela_aluguel[marca])              #Estrutura para exibir dicionário e receber o modelo escolhida pelo cliente e verificar se está na tabela de aluguel e fazer o cálculo
+
+        modelo =input("Escolha uma modelo acima:")
+        
+        if modelo in tabela_aluguel[marca]:      # if utilizado para verificar se o modelo e a marca estão na tabela de carros disponíveis para venda e fazer o cálculo
+           juros = tabela_fipe[modelo] * 0.25
+           valor_venda = tabela_fipe[modelo] + juros
+
+           print("O valor do carro para venda é:R$",valor_venda)
+           escolha =input("Deseja fechar o acordo? (S/N): ").lower()
+        
+
+           if escolha == "s":                       #Condição utilizada caso o cliente escolha fechar a compra do seu veículo.Se o saldo for menor do que o valor do veículo,mostrar salo insuficiente
+              
+              if saldo < valor_venda:              
+              
+                 print("Saldo insuficiente")
+
+                 
+              
+              else:
+                 saldo = saldo - valor_venda         #Condição oposta para poder validar o saldo e atualizar o mesmo se o saldo for igual ou maior o da venda.
+                 print(" Venda realizada com sucesso!Seu saldo atual é:R$",saldo)
+                 tabela_aluguel[marca].remove(modelo)
+                
+
+    
+           elif escolha == "n":                      # Condição caso o cliente escolha não comnprar o veículo
+                print("Negociação não realizada!") 
+                
+           
+           else:
+               print("Erro")
+        else:
+           print("Carro não está mais disponível em nossa concessionária")  # Condição  de verificação de carros disponíveis do primeiro if nessa opção(opção2)
+           
+           continue #Voltar ao menu
+        
+
+    if opcao == 3:    #Opção de aluguel de carros para o cliente
+           
+           
+           print("--- Aluguel de veículos--- ")
+           for marca in tabela_aluguel:                 #Estrutura para exibir dicionário e receber a marca escolhida pelo cliente e verificar se está na tabela de aluguel.
+               print(marca)
+
+           
+           marca =input("Escolha a marca:\n")           #Cliente irá esolher a marca
+
+           print(" ")
+
+           print(tabela_aluguel[marca])                 #Mostrar as marcas disponíveis
+
+           modelo =input("Escolha uma modelo acima:")   #Mostrar os modelos disponíveis.
+           dias = int(input("Informe por quantos dias você irá alugar o carro:"))
+
+           if modelo in tabela_aluguel[marca]:           #Condição para verificar a marcar escolhida pelo cliente e fazer o cálculo do aluguel
+               aluguel = dias   * 77
+
+               print("O valor total do aluguel é:R$",aluguel)
+               escolha =input("Deseja fechar o acordo? (S/N): ").lower()
+              
+
+               if escolha == "s":                           #Condição utilizada caso o cliente escolha fechar o aluguel do veículo.Se o saldo for menor do que o valor do aluguel do  veículo,mostrar salo insuficiente
+                if saldo < aluguel:
+                  print("Saldo insuficiente")
+
+                else:
+                  saldo = saldo - aluguel                    #Condição oposta para poder validar o saldo e atualizar o mesmo se o saldo for igual ou maior o do aluguel
+                  print(" Aluguel realizado com sucesso!Seu saldo atual é:R$",saldo)
+                  tabela_aluguel[marca].remove(modelo)       #Comando para remover o modelo de acordo que for sendo aluguel
+
+
+               elif escolha == "n":                          #Condição caso o cliente escolha não alugar o carro.
+                  print("Negociação não realizada!") 
+
+               else:                                         #Caso o usuário digite outra opção que não seja da escolha acima. Mostrar erro
+                   print("Erro")
+
+           else:
+
+             print("Carro não está mais disponível em nossa concessionária")  # Condição  de verificação de carros disponíveis do if nessa opção.
+           
+             continue  #Voltar ao menu
+    
+    
+    if opcao == 4 : #opção para finalizar o sistema
+       print("Programa finalizado")  
+       break   
+
+    else:
+       print("Erro")              
+
+
